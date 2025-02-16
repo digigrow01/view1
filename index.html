@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slider Gambar dengan Efek Geser Halus</title>
+  <style>
+    /* Style dasar */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: transparent;
+    }
+
+    .container {
+      width: 300px;
+      text-align: center;
+    }
+
+    /* Container slider */
+    .slider-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background-color: transparent;
+    }
+
+    /* Slide wrapper dengan efek transisi geser */
+    .slides {
+      display: flex;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Setiap slide */
+    .slide {
+      min-width: 100%;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+    }
+
+    /* Gambar pada slide */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Indikator titik */
+    .indicators {
+      margin-bottom: 15px;
+    }
+
+    .dot {
+      height: 5px;
+      width: 5px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: #333;
+    }
+
+    /* Tombol navigasi */
+    .buttons {
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn .arrow {
+      margin-left: 8px;
+      font-size: 18px;
+    }
+
+    /* Jarak antar tombol */
+    #auth-buttons button {
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Slider -->
+    <div class="slider-container">
+      <div class="slides">
+        <div class="slide">
+          <img src="https://images2.imgbox.com/31/ba/te976SxM_o.png" alt="Gambar 1">
+        </div>
+        <div class="slide">
+          <img src="https://images2.imgbox.com/9b/ed/nWoVGkU7_o.png" alt="Gambar 2">
+        </div>
+        <div class="slide">
+          <img src="https://images2.imgbox.com/ec/51/52STh4Uk_o.png" alt="Gambar 3">
+        </div>
+        <div class="slide">
+          <img src="https://images2.imgbox.com/5b/8c/VdNcAzHd_o.png" alt="Gambar 4">
+        </div>
+        <div class="slide">
+          <img src="https://images2.imgbox.com/70/11/NQKdSIcI_o.png" alt="Gabung Sekarang">
+        </div>
+      </div>
+    </div>
+
+    <!-- Indikator titik -->
+    <div class="indicators">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <!-- Tombol navigasi -->
+    <div class="buttons">
+      <button id="get-started" class="btn btn-primary">
+        Get Started <span class="arrow">&#8594;</span>
+      </button>
+      <div id="auth-buttons" style="display: none;">
+        <button class="btn btn-secondary" onclick="window.location.href='https://sites.google.com/view/digigrowid/halaman-muka/login'">Login</button>
+        <button class="btn btn-primary" onclick="window.location.href='https://sites.google.com/view/digigrowid/halaman-muka/sign-up'">Sign Up</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    const slides = document.querySelector('.slides');
+    const dots = document.querySelectorAll('.dot');
+    const getStartedBtn = document.getElementById('get-started');
+    const authButtons = document.getElementById('auth-buttons');
+
+    function updateSlider() {
+      slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentIndex);
+      });
+
+      // Tampilkan tombol Login/Sign Up pada slide terakhir
+      if (currentIndex === dots.length - 1) {
+        getStartedBtn.style.display = 'none';
+        authButtons.style.display = 'inline-flex';
+      } else {
+        getStartedBtn.style.display = 'inline-flex';
+        authButtons.style.display = 'none';
+      }
+    }
+
+    function nextSlide() {
+      if (currentIndex < dots.length - 1) {
+        currentIndex++;
+        updateSlider();
+      }
+    }
+
+    // Event klik pada tombol Get Started
+    getStartedBtn.addEventListener('click', nextSlide);
+
+    // Navigasi manual melalui indikator titik
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        currentIndex = idx;
+        updateSlider();
+      });
+    });
+  </script>
+</body>
+</html>
